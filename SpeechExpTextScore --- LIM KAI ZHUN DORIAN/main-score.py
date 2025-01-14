@@ -49,7 +49,7 @@ if uploaded_video is not None:
             # Load BERT model and predict sentiment
             bert_model_name = 'bert-base-uncased'
             num_classes = 2
-            model_path = "G:\My Drive\00Y3S1\FYP2\SpeechExpTextScore --- LIM KAI ZHUN DORIAN\bert_classifier.pth"
+            model_path = "SpeechExpTextScore --- LIM KAI ZHUN DORIAN\bert_classifier.pth"
             loaded_model, tokenizer, device = load_bert_model(bert_model_name, num_classes, model_path)
             predicted_stress = predict_sentiment(speech_text, loaded_model, tokenizer, device)
 

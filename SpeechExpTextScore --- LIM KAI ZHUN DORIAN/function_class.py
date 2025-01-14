@@ -61,7 +61,7 @@ def preprocess_text(text):
     return text
 
 # Remove Indonesian stopwords
-def remove_stopwords(text, stopwords_path="G:\My Drive\00Y3S1\FYP2\SpeechExpTextScore --- LIM KAI ZHUN DORIAN\stopwords-id.json"):
+def remove_stopwords(text, stopwords_path="SpeechExpTextScore --- LIM KAI ZHUN DORIAN\stopwords-id.json"):
     with open(stopwords_path, "r") as f:
         stopwords = json.load(f)
     words = text.split()
@@ -69,7 +69,7 @@ def remove_stopwords(text, stopwords_path="G:\My Drive\00Y3S1\FYP2\SpeechExpText
     return ' '.join(filtered_words)
 
 # Convert Indonesian slang words
-def convert_slang(text, slang_path="G:\My Drive\00Y3S1\FYP2\SpeechExpTextScore --- LIM KAI ZHUN DORIAN\combined_slang_words.txt"):
+def convert_slang(text, slang_path="SpeechExpTextScore --- LIM KAI ZHUN DORIAN\combined_slang_words.txt"):
     # Load the JSON file
     with open(slang_path, "r", encoding="utf-8") as f:
         slang_dict = json.load(f)  # Load as a dictionary
