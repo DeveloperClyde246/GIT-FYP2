@@ -74,9 +74,9 @@ with col1:
 
 with col2: 
     st.header("Analysis")
-    if st.button("Home"):
-        st.switch_page("main.py")
-    if st.button("Page 1"):
-        st.switch_page("pages/page_1.py")
-    if st.button("Page 2"):
-        st.switch_page("pages/page_2.py")
+    if st.button("Facial Expression"):
+        st.switch_page("pages/FacialExpression.py")
+    if st.button("Emotion Analysis"):
+        st.switch_page("pages/ToneEmotion.py")
+    if st.button("Personality Analysis"):
+        st.switch_page("pages/TonePersonality.py")

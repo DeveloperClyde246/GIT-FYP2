@@ -80,7 +80,7 @@ with col2:
 
     with tab2: 
         # Display Emotions results
-        st.header("Result")
+        #st.header("Result")
         for model, scores in emotion_results.items():
             st.subheader(model)
             if len(emotion_le.classes_) == len(scores):
