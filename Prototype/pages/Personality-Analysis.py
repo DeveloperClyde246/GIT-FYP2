@@ -19,6 +19,19 @@ st.title("AI Interview - Automation Personality Perception Dashboard")
 col1, col2 = st.columns([2, 5])  # Left column is wider than the right column
 
 with col1:
+    st.write(" ")
+    st.write(" ")
+    st.write(" ")
+    st.write(" ")
+    st.write(" ")
+    st.write(" ")
+    st.write(" ")
+    st.write(" ")
+    st.write(" ")
+    st.write(" ")
+    st.write(" ")
+    st.write(" ")
+
     video_dir = "uploaded_videos"
     uploaded_file = None
 
@@ -28,7 +41,7 @@ with col1:
             video_path = os.path.join(video_dir, video_filename)
             uploaded_file = video_path
             st.video(uploaded_file)
-            st.success(f"Video {video_filename} loaded successfully!")
+            #st.success(f"Video {video_filename} loaded successfully!")
 with col2:
     if uploaded_file is not None:
         # Open the uploaded file path as a file-like object
@@ -54,24 +67,32 @@ with col2:
 
 
         # Create tabs for Personality Traits and Emotions Analysis
-        tab1, tab2 = st.tabs(["Personality Traits Analysis", "Extracted Audio Features"])
+        tab1, tab2 = st.tabs(["Extracted Audio Features", "Personality Traits Analysis"])
 
         with tab2:
             # Display Personality Traits results
             for model, scores in personality_results.items():
                 st.write("Prediction traits: ")
                 if len(personality_le.classes_) == len(scores):
-                    for trait, score in zip(personality_le.classes_, scores):
-                        st.write(f"{trait}: {score * 100:.2f}%")
-                
-                    # Plot radar charts with color fill
-                    fig = px.line_polar(
-                        r=scores,
-                        theta=personality_le.classes_,
-                        line_close=True
-                    )
-                    fig.update_traces(fill='toself')
-                    st.plotly_chart(fig)
+                    
+                    col1, col2 = st.columns([2, 3])     
+                    with col1:
+                        st.write(" ")
+                        st.write(" ")
+                        st.write(" ")
+                        st.write(" ")
+                        st.write(" ")
+                        for trait, score in zip(personality_le.classes_, scores):
+                            st.write(f"{trait}: {score * 100:.2f}%")
+                    with col2:
+                        # Plot radar charts with color fill
+                        fig = px.line_polar(
+                            r=scores,
+                            theta=personality_le.classes_,
+                            line_close=True
+                        )
+                        fig.update_traces(fill='toself')
+                        st.plotly_chart(fig)
 
                     # Determine the most likely personality trait
                     most_likely_trait = personality_le.classes_[np.argmax(scores)]
@@ -101,20 +122,26 @@ with col2:
             st.write(features)
             st.write("Shape of the features:", features.shape)
 
-            # Visualize the audio waveform
-            st.write("Audio Waveform: ")
-            y, sr = librosa.load(audiofile, sr=None)
-            fig, ax = plt.subplots()
-            librosa.display.waveshow(y, sr=sr, ax=ax)
-            ax.set(title='Waveform of the Audio')
-            st.pyplot(fig)
+            col1, col2 = st.columns([1, 1]) 
+            with col1:
+                # Visualize the audio waveform
+                st.write("Audio Waveform:")
+                y, sr = librosa.load(audiofile, sr=None)
+                fig, ax = plt.subplots()
+                librosa.display.waveshow(y, sr=sr, ax=ax)
+                ax.set(title='Waveform of the Audio')
+                st.pyplot(fig)
 
-            # Visualize the spectrogram
-            st.write("Spectrogram: ")
-            fig, ax = plt.subplots()
-            S = librosa.feature.melspectrogram(y=y, sr=sr, n_mels=128)
-            S_dB = librosa.power_to_db(S, ref=np.max)
-            img = librosa.display.specshow(S_dB, sr=sr, x_axis='time', y_axis='mel', ax=ax)
-            fig.colorbar(img, ax=ax, format='%+2.0f dB')
-            ax.set(title='Mel-frequency spectrogram')
-            st.pyplot(fig)
+            with col2:
+                # Visualize the spectrogram
+                st.write("Spectrogram:")
+                fig, ax = plt.subplots()
+                S = librosa.feature.melspectrogram(y=y, sr=sr, n_mels=128)
+                S_dB = librosa.power_to_db(S, ref=np.max)
+                img = librosa.display.specshow(S_dB, sr=sr, x_axis='time', y_axis='mel', ax=ax)
+                fig.colorbar(img, ax=ax, format='%+2.0f dB')
+                ax.set(title='Mel-frequency spectrogram')
+                st.pyplot(fig)
+
+if st.button("Back"):
+    st.switch_page("pages/Home.py")

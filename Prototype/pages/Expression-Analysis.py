@@ -15,15 +15,28 @@ from tensorflow.keras.models import load_model
 model = load_model('Model/model3.h5')
 
 st.set_page_config(layout="wide")
-# Set the page title
+
 st.title("Facial Expression Detection")
 
 # Create two columns
 col1, col2 = st.columns([2, 5])  # Left column is wider than the right column
 
 with col1:
+    # Set the page title
     st.header("Video")
 
+    st.write(" ")
+    st.write(" ")
+    st.write(" ")
+    st.write(" ")
+    st.write(" ")
+    st.write(" ")
+    st.write(" ")
+    st.write(" ")
+    st.write(" ")
+    st.write(" ")
+    st.write(" ")
+    st.write(" ")
     # Video directory
     video_dir = "uploaded_videos"
     uploaded_video = None
@@ -34,7 +47,7 @@ with col1:
             video_path = os.path.join(video_dir, video_filename)
             uploaded_video = video_path
             st.video(uploaded_video)
-            st.success(f"Video {video_filename} loaded successfully!")
+            #st.success(f"Video {video_filename} loaded successfully!")
 
     if uploaded_video is not None:
         # Save the uploaded video to a temporary file
@@ -46,30 +59,31 @@ with col1:
         # Start timing the processing
         start_time = time.time()
 
-        # Process the uploaded video using Preprocessor
-        preprocessor = Preprocessor()
-        preprocessed_data = preprocessor.preprocess(temp_video_path)
-        st.write(f"Extracted {len(preprocessed_data)} frames from the video.")
+        with st.spinner('Processing...'):
+            # Process the uploaded video using Preprocessor
+            preprocessor = Preprocessor()
+            preprocessed_data = preprocessor.preprocess(temp_video_path)
+            st.write(f"Extracted {len(preprocessed_data)} frames from the video.")
 
-        # Predict emotions for each frame
-        processed_frames = np.array(preprocessed_data)
-        predictions = model.predict(processed_frames)
-        predicted_emotions = np.argmax(predictions, axis=1)
+            # Predict emotions for each frame
+            processed_frames = np.array(preprocessed_data)
+            predictions = model.predict(processed_frames)
+            predicted_emotions = np.argmax(predictions, axis=1)
 
-        # End timing the processing
-        end_time = time.time()
-        total_time = end_time - start_time
+            # End timing the processing
+            end_time = time.time()
+            total_time = end_time - start_time
 
-        # Map predictions to emotion labels
-        emotion_labels = ['Angry', 'Disgust', 'Fear', 'Happy', 'Sad', 'Surprise', 'Neutral']
-        emotion_counts = pd.Series(predicted_emotions).value_counts().sort_index()
-        emotion_counts.index = [emotion_labels[i] for i in emotion_counts.index]
+            # Map predictions to emotion labels
+            emotion_labels = ['Angry', 'Disgust', 'Fear', 'Happy', 'Sad', 'Surprise', 'Neutral']
+            emotion_counts = pd.Series(predicted_emotions).value_counts().sort_index()
+            emotion_counts.index = [emotion_labels[i] for i in emotion_counts.index]
 
-        # Display the total processing time
-        st.write(f"Total processing time: {total_time:.2f} seconds")
+            # Display the total processing time
+            st.write(f"Total processing time: {total_time:.2f} seconds")
 
-        # Clean up the temporary file
-        os.remove(temp_video_path)
+            # Clean up the temporary file
+            os.remove(temp_video_path)
 
 with col2:
     st.header("Facial Expression Distribution")
@@ -79,9 +93,12 @@ with col2:
         ax.pie(emotion_counts, labels=emotion_counts.index, autopct='%1.1f%%', startangle=90, colors=["#FF9999", "#66B2FF", "#99FF99", "#FFCC99", "#FFD700", "#87CEFA", "#90EE90"])
         ax.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle
 
-        # Display the pie chart
-        st.pyplot(fig)
-        st.write("### Emotion Distribution")
+        col1, col2 = st.columns([1, 1])  # Left column is wider than the right column
+
+        with col1:
+            # Display the pie chart
+            st.pyplot(fig)
+            st.write("### Emotion Distribution")
         # Rename the dataframe columns
         emotion_counts = emotion_counts.reset_index()
         emotion_counts.columns = ['Emotions', 'Frames']
@@ -91,3 +108,6 @@ with col2:
         st.write(f"The facial expression of the candidate is {max_emotion} in this video.")
     else:
         st.write("Upload a video to view the emotion distribution.")
+
+if st.button("Back"):
+    st.switch_page("pages/Home.py")

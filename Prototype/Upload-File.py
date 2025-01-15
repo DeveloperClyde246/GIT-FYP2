@@ -34,4 +34,4 @@ if uploaded_video is not None:
     st.success(f"Video saved successfully at {temp_file_path}!")
 
     if st.button("Proceed"):
-            st.switch_page("pages/homePage.py")
+            st.switch_page("pages/home.py")
