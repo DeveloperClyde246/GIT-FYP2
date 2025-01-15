@@ -1,65 +1,37 @@
 import streamlit as st
-import pandas as pd
-import matplotlib.pyplot as plt
-import tempfile
 import os
-import numpy as np
-import cv2
-import time
 
-# with open('style.css') as f:
-#     st.markdown(f'<style>{f.read()}<style>',unsafe_allow_html=True)
+# Create a directory to save uploaded videos (if it doesn't exist)
+video_dir = "uploaded_videos"
+if not os.path.exists(video_dir):
+    os.makedirs(video_dir)
+
+# Function to clear the uploaded_videos folder
+def clear_previous_videos():
+    for file in os.listdir(video_dir):
+        file_path = os.path.join(video_dir, file)
+        if os.path.isfile(file_path):
+            os.remove(file_path)
 
 # Set the page title
-st.title("Facial Expression Detection")
+st.title("Upload Your Video")
 
+# File uploader for video
+uploaded_video = st.file_uploader("Choose a video file", type=["mp4", "avi", "mov", "mkv"])
 
-# # Custom CSS to inject
-# st.markdown("""
-# <style>
-# .streamlit-container {
-#     border: 2px solid #111;
-#     padding: 10px;
-# }
-# </style>
-# """, unsafe_allow_html=True)
+if uploaded_video is not None:
+    # Clear the previous videos before saving the new one
+    clear_previous_videos()
 
-# Create two columns with custom width ratios
-col1, col2 = st.columns([3, 1])  # Left column is wider than the right column
+    # Save the uploaded video to the `uploaded_videos` folder
+    temp_file_path = os.path.join(video_dir, uploaded_video.name)
 
-with col1:
-    st.header("Upload Video")
+    # Write the uploaded video directly to the target directory
+    with open(temp_file_path, "wb") as f:
+        f.write(uploaded_video.read())
 
-    # Video upload functionality
-    uploaded_video = st.file_uploader("Choose a video file", type=["mp4", "avi", "mov", "mkv"])
+    st.video(temp_file_path)  # Display the uploaded video
+    st.success(f"Video saved successfully at {temp_file_path}!")
 
-    if uploaded_video is not None:
-        st.video(uploaded_video)
-        st.success("Video uploaded successfully!")
-
-        # Save the uploaded video to a temporary file
-        with tempfile.NamedTemporaryFile(delete=False, suffix='.mp4') as temp_file:
-            temp_file.write(uploaded_video.read())
-            temp_video_path = temp_file.name
-
-        # Start timing the processing
-        start_time = time.time()
-
-        # End timing the processing
-        end_time = time.time()
-        total_time = end_time - start_time
-
-        # Display the total processing time
-        st.write(f"Total processing time: {total_time:.2f} seconds")
-
-        # # Clean up the temporary file
-        # os.remove(temp_video_path)
-
-with col2: 
-    st.header("Navigation")
-    if st.button("Home"):
-        st.switch_page("main.py")
-    if st.button("Page 1"):
-        st.switch_page("pages/page_1.py")
-    if st.button("Page 2"):
-        st.switch_page("pages/page_2.py")
+    if st.button("Proceed"):
+            st.switch_page("pages/homePage.py")
