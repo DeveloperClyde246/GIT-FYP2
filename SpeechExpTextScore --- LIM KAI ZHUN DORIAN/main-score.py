@@ -3,6 +3,8 @@ import os
 # pip install -U openai-whisper
 from function_class import convert_video_to_audio, transcribe_audio, preprocess_text, remove_stopwords, convert_slang, translate_to_indonesian, stem_text, load_bert_model, predict_sentiment
 import langcodes
+import moviepy.editor
+
 
 # RUN: python -m streamlit run main-score.py
 
@@ -25,7 +27,7 @@ if uploaded_video is not None:
             # st.success("Audio extracted successfully!")
 
             # Transcribe audio
-            transcription_result = transcribe_audio(audio_file)
+            transcription_result = transcribe_audio("output_audio.wav")
             speech_text = transcription_result["text"]
             detected_language = transcription_result["language"]
 
@@ -49,7 +51,7 @@ if uploaded_video is not None:
             # Load BERT model and predict sentiment
             bert_model_name = 'bert-base-uncased'
             num_classes = 2
-            model_path = "SpeechExpTextScore --- LIM KAI ZHUN DORIAN\bert_classifier.pth"
+            model_path = "C:/Users/KEYU/Documents/GitHub/GIT-FYP2/SpeechExpTextScore --- LIM KAI ZHUN DORIAN/main-score.py"
             loaded_model, tokenizer, device = load_bert_model(bert_model_name, num_classes, model_path)
             predicted_stress = predict_sentiment(speech_text, loaded_model, tokenizer, device)
 

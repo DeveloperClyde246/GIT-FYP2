@@ -9,6 +9,7 @@ import moviepy as mp
 from transformers import BertTokenizer
 from model_class import BERTClassifier
 from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
+import moviepy.editor
 
 # Function to convert video to audio
 def convert_video_to_audio(video_file, output_audio_name="output_audio.wav"):
@@ -19,7 +20,7 @@ def convert_video_to_audio(video_file, output_audio_name="output_audio.wav"):
             f.write(video_file.read())
 
         # Use moviepy to extract audio
-        video = mp.VideoFileClip(temp_video_path)
+        video = mp.editor.VideoFileClip(temp_video_path)
         audio = video.audio
         audio.write_audiofile(output_audio_name)
 
@@ -61,7 +62,7 @@ def preprocess_text(text):
     return text
 
 # Remove Indonesian stopwords
-def remove_stopwords(text, stopwords_path="SpeechExpTextScore --- LIM KAI ZHUN DORIAN\stopwords-id.json"):
+def remove_stopwords(text, stopwords_path="C:/Users/KEYU/Documents/GitHub/GIT-FYP2/SpeechExpTextScore --- LIM KAI ZHUN DORIAN/stopwords-id.json"):
     with open(stopwords_path, "r") as f:
         stopwords = json.load(f)
     words = text.split()
@@ -69,7 +70,7 @@ def remove_stopwords(text, stopwords_path="SpeechExpTextScore --- LIM KAI ZHUN D
     return ' '.join(filtered_words)
 
 # Convert Indonesian slang words
-def convert_slang(text, slang_path="SpeechExpTextScore --- LIM KAI ZHUN DORIAN\combined_slang_words.txt"):
+def convert_slang(text, slang_path="C:/Users/KEYU/Documents/GitHub/GIT-FYP2/SpeechExpTextScore --- LIM KAI ZHUN DORIAN/combined_slang_words.txt"):
     # Load the JSON file
     with open(slang_path, "r", encoding="utf-8") as f:
         slang_dict = json.load(f)  # Load as a dictionary

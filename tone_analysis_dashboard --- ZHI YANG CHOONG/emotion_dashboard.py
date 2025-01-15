@@ -9,8 +9,6 @@ import matplotlib.pyplot as plt
 from preprocess_function import extract_audio, preprocess_audio, predict_emotion
 
 
-
-
 # Streamlit app
 st.title("AI Interview - Speech Emotion Recognition Dashboard")
 
