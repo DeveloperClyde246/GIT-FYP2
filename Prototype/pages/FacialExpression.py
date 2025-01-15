@@ -9,33 +9,38 @@ import cv2
 import time
 from facial_expression_recognition.Preprocessor import Preprocessor
 
-
 # Load model to predict
 import tensorflow as tf
 from tensorflow.keras.models import load_model
 model = load_model('Model/model3.h5')
-
 
 st.set_page_config(layout="wide")
 # Set the page title
 st.title("Facial Expression Detection")
 
 # Create two columns
-col1, col2 = st.columns(2)
+col1, col2 = st.columns([2, 5])  # Left column is wider than the right column
 
 with col1:
-    st.header("Upload Video")
+    st.header("Video")
 
-    # Video upload functionality
-    uploaded_video = st.file_uploader("Choose a video file", type=["mp4", "avi", "mov", "mkv"])
+    # Video directory
+    video_dir = "uploaded_videos"
+    uploaded_video = None
+
+    # Loop through video files in the directory
+    if os.listdir(video_dir):
+        for video_filename in os.listdir(video_dir):
+            video_path = os.path.join(video_dir, video_filename)
+            uploaded_video = video_path
+            st.video(uploaded_video)
+            st.success(f"Video {video_filename} loaded successfully!")
 
     if uploaded_video is not None:
-        st.video(uploaded_video)
-        st.success("Video uploaded successfully!")
-
         # Save the uploaded video to a temporary file
         with tempfile.NamedTemporaryFile(delete=False, suffix='.mp4') as temp_file:
-            temp_file.write(uploaded_video.read())
+            with open(uploaded_video, 'rb') as video_file:
+                temp_file.write(video_file.read())
             temp_video_path = temp_file.name
 
         # Start timing the processing
@@ -77,12 +82,12 @@ with col2:
         # Display the pie chart
         st.pyplot(fig)
         st.write("### Emotion Distribution")
-        #rename the dataframe columns
+        # Rename the dataframe columns
         emotion_counts = emotion_counts.reset_index()
         emotion_counts.columns = ['Emotions', 'Frames']
         st.table(emotion_counts)
-        #display the massage the maximum emotion
+        # Display the message for the maximum emotion
         max_emotion = emotion_counts.loc[emotion_counts['Frames'].idxmax()]['Emotions']
-        st.write(f"The facial expression of the candidate is {max_emotion} in this video")
+        st.write(f"The facial expression of the candidate is {max_emotion} in this video.")
     else:
         st.write("Upload a video to view the emotion distribution.")
