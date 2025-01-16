@@ -16,7 +16,7 @@ model = load_model('Model/model3.h5')
 
 st.set_page_config(layout="wide")
 
-st.title("Facial Expression Detection")
+st.title("Facial Expression Analysis")
 
 # Create two columns
 col1, col2 = st.columns([2, 5])  # Left column is wider than the right column
@@ -28,19 +28,12 @@ with col1:
     st.write(" ")
     st.write(" ")
     st.write(" ")
-    st.write(" ")
-    st.write(" ")
-    st.write(" ")
-    st.write(" ")
-    st.write(" ")
-    st.write(" ")
-    st.write(" ")
-    st.write(" ")
-    st.write(" ")
+
     # Video directory
     video_dir = "uploaded_videos"
     uploaded_video = None
 
+    st.write("Question: Apa yang anda ketahui tentang Ionic?")
     # Loop through video files in the directory
     if os.listdir(video_dir):
         for video_filename in os.listdir(video_dir):
@@ -86,28 +79,33 @@ with col1:
             os.remove(temp_video_path)
 
 with col2:
-    st.header("Facial Expression Distribution")
     if uploaded_video is not None and len(predicted_emotions) > 0:
         # Create a pie chart based on the emotion counts
         fig, ax = plt.subplots()
         ax.pie(emotion_counts, labels=emotion_counts.index, autopct='%1.1f%%', startangle=90, colors=["#FF9999", "#66B2FF", "#99FF99", "#FFCC99", "#FFD700", "#87CEFA", "#90EE90"])
         ax.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle
 
-        col1, col2 = st.columns([1, 1])  # Left column is wider than the right column
+        col1, col2 = st.columns([2, 1])  # Left column is wider than the right column
 
         with col1:
+
+            st.subheader("Facial Expression Distribution")
             # Display the pie chart
             st.pyplot(fig)
-            st.write("### Emotion Distribution")
-        # Rename the dataframe columns
-        emotion_counts = emotion_counts.reset_index()
-        emotion_counts.columns = ['Emotions', 'Frames']
-        st.table(emotion_counts)
+
+        with col2:
+            st.write("###  ")
+            st.write(" ")
+            st.write(" ")
+            # Rename the dataframe columns
+            emotion_counts = emotion_counts.reset_index()
+            emotion_counts.columns = ['Emotions', 'Frames']
+            st.table(emotion_counts)
         # Display the message for the maximum emotion
         max_emotion = emotion_counts.loc[emotion_counts['Frames'].idxmax()]['Emotions']
-        st.write(f"The facial expression of the candidate is {max_emotion} in this video.")
+        st.write(f"Final result: The facial expression of the candidate is {max_emotion} in this video.")
     else:
         st.write("Upload a video to view the emotion distribution.")
 
 if st.button("Back"):
-    st.switch_page("pages/Home.py")
+    st.switch_page("pages/1_Home.py")

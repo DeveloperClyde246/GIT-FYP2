@@ -16,7 +16,7 @@ model = load_model('Model/model3.h5')
 
 st.set_page_config(layout="wide")
 
-st.title("Facial Expression Detection")
+st.title("Stress Detection")
 
 # Create two columns
 col1, col2 = st.columns([2, 5])  # Left column is wider than the right column
@@ -29,6 +29,7 @@ with col1:
     video_dir = "uploaded_videos"
     uploaded_video = None
 
+    st.write("Question: Apa yang anda ketahui tentang Ionic?")
     # Loop through video files in the directory
     if os.listdir(video_dir):
         for video_filename in os.listdir(video_dir):
@@ -50,9 +51,9 @@ with col1:
         st.write("Ionic adalah framework yang membangun aplikasi mobile dengan menggunakan html css dan javascript")
 
 with col2:
-    st.subheader("Facial Expression Distribution")
+    st.subheader("Stress Detection")
     st.write("Detected Language: Indonesia ")
     st.write("The candidate is not showing stress ")
 
 if st.button("Back"):
-    st.switch_page("pages/Home.py")
+    st.switch_page("pages/1_Home.py")

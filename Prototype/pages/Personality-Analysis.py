@@ -11,7 +11,7 @@ import os
 from tone_analysis_dashboard.preprocess_function import *
 
 # Streamlit app
-st.title("AI Interview - Automation Personality Perception Dashboard")
+st.title("Personality Analysis")
 
 # # File uploader
 # uploaded_file = st.file_uploader("Upload a video file", type=["mp4", "avi", "mov", "mkv"])
@@ -31,10 +31,13 @@ with col1:
     st.write(" ")
     st.write(" ")
     st.write(" ")
+    st.write(" ")
+    st.write(" ")
 
     video_dir = "uploaded_videos"
     uploaded_file = None
 
+    st.write("Question: Apa yang anda ketahui tentang Ionic?")
     # Loop through video files in the directory
     if os.listdir(video_dir):
         for video_filename in os.listdir(video_dir):
@@ -42,6 +45,8 @@ with col1:
             uploaded_file = video_path
             st.video(uploaded_file)
             #st.success(f"Video {video_filename} loaded successfully!")
+
+
 with col2:
     if uploaded_file is not None:
         # Open the uploaded file path as a file-like object
@@ -75,7 +80,7 @@ with col2:
                 st.write("Prediction traits: ")
                 if len(personality_le.classes_) == len(scores):
                     
-                    col1, col2 = st.columns([2, 3])     
+                    col1, col2 = st.columns([2, 4])     
                     with col1:
                         st.write(" ")
                         st.write(" ")
@@ -144,4 +149,4 @@ with col2:
                 st.pyplot(fig)
 
 if st.button("Back"):
-    st.switch_page("pages/Home.py")
+    st.switch_page("pages/1_Home.py")

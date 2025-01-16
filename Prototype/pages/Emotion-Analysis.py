@@ -30,8 +30,8 @@ with col1:
     st.write(" ")
     st.write(" ")
     st.write(" ")
-    st.write(" ")
-    st.write(" ")
+
+    st.write("Question: Apa yang anda ketahui tentang Ionic?")
     # Loop through video files in the directory
     if os.listdir(video_dir):
         for video_filename in os.listdir(video_dir):
@@ -45,7 +45,6 @@ with col1:
         tfile = tempfile.NamedTemporaryFile(delete=False, suffix='.mp4')
         with open(uploaded_file, 'rb') as video_file:
             tfile.write(video_file.read())
-
 
 with col2:
     # Create tabs for Personality Traits and Emotions Analysis
@@ -102,6 +101,11 @@ with col2:
             if len(emotion_le.classes_) == len(scores):
                 col1, col2 = st.columns([1, 3])
                 with col1:
+                    st.write(" ")
+                    st.write(" ")
+                    st.write(" ")
+                    st.write(" ")
+                    st.write(" ")
                     for emotion, score in zip(emotion_le.classes_, scores):
                         st.write(f"{emotion}: {score * 100:.2f}%")
                 with col2:
@@ -122,4 +126,4 @@ with col2:
                 st.error("Mismatch between emotions and scores. Check model output!")
 
 if st.button("Back"):
-    st.switch_page("pages/Home.py")
+    st.switch_page("pages/1_Home.py")

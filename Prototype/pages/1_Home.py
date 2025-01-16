@@ -46,6 +46,7 @@ with col1:
     video_dir = "uploaded_videos"
     uploaded_file = None
 
+    st.write("Question: Apa yang anda ketahui tentang Ionic?")
     # Loop through video files in the directory
     if os.listdir(video_dir):
         for video_filename in os.listdir(video_dir):
@@ -68,22 +69,23 @@ with col1:
             # Preprocess audio
             features = preprocess_audio(audiofile)
 
+
     if st.button("Choose Other Video"):
             st.switch_page("Upload-File.py")
 
 with col2: 
     tab1, tab2 = st.tabs(["Analysis", "Extracted Details"])
     with tab1:
-        if st.button("Facial Expression"):
-            st.switch_page("pages/Expression-Analysis.py")
         if st.button("Emotion Analysis"):
             st.switch_page("pages/Emotion-Analysis.py")
+        if st.button("Facial Expression Analysis"):
+            st.switch_page("pages/Facial-Expression-Analysis.py")
         if st.button("Personality Analysis"):
             st.switch_page("pages/Personality-Analysis.py")
-        if st.button("Stress Analysis"):
+        if st.button("Stress Detection"):
             st.switch_page("pages/Stress-Analysis.py")
     with tab2:
-        st.subheader("Transcription: ")
+        st.subheader("Transcript: ")
         st.text("Ionic adalah framework yang membangun aplikasi mobile dengan menggunakan html css dan javascript")
 
 
