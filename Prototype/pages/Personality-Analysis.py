@@ -49,7 +49,7 @@ with col1:
 
 with col2:
     if uploaded_file is not None:
-        with open(uploaded_file, 'rb') as file: #Save the uploaded file to a temporary location
+        with open(uploaded_file, 'rb') as file: #save the uploaded file to a temporary location
             tfile = tempfile.NamedTemporaryFile(delete=False)
             tfile.write(file.read())  #write the contents to the temp file
 
@@ -66,7 +66,6 @@ with col2:
                 personality_results = predict_personality(features, personality_scaler, personality_le)
 
 
-        # Create tabs for Personality Traits and Emotions Analysis
         tab1, tab2 = st.tabs(["Extracted Audio Features", "Personality Traits Analysis"])
 
         with tab2:

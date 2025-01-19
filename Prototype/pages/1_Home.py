@@ -96,7 +96,7 @@ with col2:
         with col2:
             # Visualize the spectrogram
             st.subheader("Spectrogram: ")
-            fig, ax = plt.subplots(figsize=(10, 5))  # Adjust the figure size
+            fig, ax = plt.subplots(figsize=(10, 5))  #Adjust the figure size
             S = librosa.feature.melspectrogram(y=y, sr=sr, n_mels=128)
             S_dB = librosa.power_to_db(S, ref=np.max)
             img = librosa.display.specshow(S_dB, sr=sr, x_axis='time', y_axis='mel', ax=ax)
