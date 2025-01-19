@@ -16,7 +16,7 @@ st.title("Personality Analysis")
 # # File uploader
 # uploaded_file = st.file_uploader("Upload a video file", type=["mp4", "avi", "mov", "mkv"])
 
-col1, col2 = st.columns([2, 5])  # Left column is wider than the right column
+col1, col2 = st.columns([2, 5])  #left column is wider than the right column
 
 with col1:
     st.write(" ")
@@ -38,7 +38,7 @@ with col1:
     uploaded_file = None
 
     st.write("Question: Apa yang anda ketahui tentang Ionic?")
-    # Loop through video files in the directory
+    #video
     if os.listdir(video_dir):
         for video_filename in os.listdir(video_dir):
             video_path = os.path.join(video_dir, video_filename)
@@ -49,18 +49,13 @@ with col1:
 
 with col2:
     if uploaded_file is not None:
-        # Open the uploaded file path as a file-like object
-        with open(uploaded_file, 'rb') as file:
-            # Save the uploaded file to a temporary location
+        with open(uploaded_file, 'rb') as file: #Save the uploaded file to a temporary location
             tfile = tempfile.NamedTemporaryFile(delete=False)
-            tfile.write(file.read())  # Write the contents to the temp file
+            tfile.write(file.read())  #write the contents to the temp file
 
-            # Show a processing message
             with st.spinner('Processing...'):
-                # Extract audio from video
+                #extract audio
                 audiofile = extract_audio(tfile.name)
-
-                # Preprocess video
                 features = preprocess_audio(audiofile)
 
                 # Load the label encoder and feature scaler

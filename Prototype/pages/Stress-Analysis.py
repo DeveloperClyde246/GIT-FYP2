@@ -18,19 +18,16 @@ st.set_page_config(layout="wide")
 
 st.title("Stress Detection")
 
-# Create two columns
-col1, col2 = st.columns([2, 5])  # Left column is wider than the right column
+col1, col2 = st.columns([2, 5])
 
 with col1:
-    # Set the page title
     st.subheader("Video")
 
-    # Video directory
+    # Video
     video_dir = "uploaded_videos"
     uploaded_video = None
 
     st.write("Question: Apa yang anda ketahui tentang Ionic?")
-    # Loop through video files in the directory
     if os.listdir(video_dir):
         for video_filename in os.listdir(video_dir):
             video_path = os.path.join(video_dir, video_filename)
@@ -39,7 +36,6 @@ with col1:
             #st.success(f"Video {video_filename} loaded successfully!")
 
     if uploaded_video is not None:
-        # Save the uploaded video to a temporary file
         with tempfile.NamedTemporaryFile(delete=False, suffix='.mp4') as temp_file:
             with open(uploaded_video, 'rb') as video_file:
                 temp_file.write(video_file.read())

@@ -13,7 +13,6 @@ import plotly.express as px
 import matplotlib.pyplot as plt
 from tone_analysis_dashboard.preprocess_function import *
 
-
 # with open('style.css') as f:
 #     st.markdown(f'<style>{f.read()}<style>',unsafe_allow_html=True)
 
@@ -41,33 +40,24 @@ with col1:
     st.write(" ")
 
     st.subheader("Video")
-    # Define the video directory
-    # Video directory
-    video_dir = "uploaded_videos"
+    video_dir = "uploaded_videos" #vid folder
     uploaded_file = None
 
     st.write("Question: Apa yang anda ketahui tentang Ionic?")
-    # Loop through video files in the directory
-    if os.listdir(video_dir):
+    if os.listdir(video_dir):# Loop through video directory
         for video_filename in os.listdir(video_dir):
             video_path = os.path.join(video_dir, video_filename)
             uploaded_file = video_path
             st.video(uploaded_file)
             #st.success(f"Video {video_filename} loaded successfully!")
-
     if uploaded_file is not None:
-        # Save uploaded file to a temporary location
-        tfile = tempfile.NamedTemporaryFile(delete=False, suffix='.mp4')
+        tfile = tempfile.NamedTemporaryFile(delete=False, suffix='.mp4')# Save uploaded file to a temporary location
         with open(uploaded_file, 'rb') as video_file:
             tfile.write(video_file.read())
-
-            # Show a processing message
         with st.spinner('Processing...'):
-            # Extract audio from video
-            audiofile = extract_audio(tfile.name)
 
-            # Preprocess audio
-            features = preprocess_audio(audiofile)
+            audiofile = extract_audio(tfile.name)# extract audio
+            features = preprocess_audio(audiofile)# preprocess audio
 
 
     if st.button("Choose Other Video"):
@@ -85,16 +75,15 @@ with col2:
         if st.button("Stress Detection"):
             st.switch_page("pages/Stress-Analysis.py")
     with tab2:
+        #mock transcript
         st.subheader("Transcript: ")
         st.text("Ionic adalah framework yang membangun aplikasi mobile dengan menggunakan html css dan javascript")
 
-
-        # Display the extracted audio features
         st.subheader("Extracted Audio Features: ")
         st.write(features)
         st.write("Shape of the features:", features.shape)
 
-        col1, col2 = st.columns([1, 1])  # Left column is wider than the right column
+        col1, col2 = st.columns([1, 1])
         with col1:
             # Visualize the audio waveform
             st.subheader("Audio Waveform: ")
