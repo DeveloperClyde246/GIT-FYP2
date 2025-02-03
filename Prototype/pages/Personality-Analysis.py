@@ -13,9 +13,6 @@ from tone_analysis_dashboard.preprocess_function import *
 # Streamlit app
 st.title("Personality Analysis")
 
-# # File uploader
-# uploaded_file = st.file_uploader("Upload a video file", type=["mp4", "avi", "mov", "mkv"])
-
 col1, col2 = st.columns([2, 5])  #left column is wider than the right column
 
 with col1:
@@ -37,7 +34,8 @@ with col1:
     video_dir = "uploaded_videos"
     uploaded_file = None
 
-    st.write("Question: Apa yang anda ketahui tentang Ionic?")
+    chosen_question = st.session_state.get("chosen_question", "No question selected.")
+    st.write(f"Question: {chosen_question}")
     #video
     if os.listdir(video_dir):
         for video_filename in os.listdir(video_dir):
@@ -74,7 +72,7 @@ with col2:
                 st.write("Prediction traits: ")
                 if len(personality_le.classes_) == len(scores):
                     
-                    col1, col2 = st.columns([2, 4])     
+                    col1, col2 = st.columns([3, 5])     
                     with col1:
                         st.write(" ")
                         st.write(" ")
@@ -82,7 +80,7 @@ with col2:
                         st.write(" ")
                         st.write(" ")
                         for trait, score in zip(personality_le.classes_, scores):
-                            st.write(f"{trait}: {score * 100:.2f}%")
+                            st.write(f"{trait}: {score * 100:.2f}% section")
                     with col2:
                         # Plot radar charts with color fill
                         fig = px.line_polar(

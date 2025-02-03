@@ -28,7 +28,8 @@ with col1:
     st.write(" ")
     st.write(" ")
 
-    st.write("Question: Apa yang anda ketahui tentang Ionic?") #mock question
+    chosen_question = st.session_state.get("chosen_question", "No question selected.")
+    st.write(f"Question: {chosen_question}")
 
     if os.listdir(video_dir):
         for video_filename in os.listdir(video_dir):
@@ -87,7 +88,7 @@ with col2:
         for model, scores in emotion_results.items():
             st.subheader(model)
             if len(emotion_le.classes_) == len(scores):
-                col1, col2 = st.columns([1, 3])
+                col1, col2 = st.columns([2, 4])
                 with col1:
                     st.write(" ")
                     st.write(" ")
@@ -95,7 +96,7 @@ with col2:
                     st.write(" ")
                     st.write(" ")
                     for emotion, score in zip(emotion_le.classes_, scores):
-                        st.write(f"{emotion}: {score * 100:.2f}%")
+                        st.write(f"{emotion}: {score * 100:.2f}% section")
                 with col2:
                     # Plot pie chart 
                     fig = px.pie(values=[s * 100 for s in scores], names=emotion_le.classes_, title=f"{model} Emotions",

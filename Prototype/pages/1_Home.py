@@ -12,6 +12,9 @@ import joblib
 import plotly.express as px
 import matplotlib.pyplot as plt
 from tone_analysis_dashboard.preprocess_function import *
+from speech_score.function_class import convert_video_to_audio, transcribe_audio, preprocess_text, remove_stopwords, convert_slang, translate_to_indonesian, stem_text, load_bert_model, predict_sentiment
+import langcodes
+import tempfile
 
 # with open('style.css') as f:
 #     st.markdown(f'<style>{f.read()}<style>',unsafe_allow_html=True)
@@ -32,7 +35,7 @@ st.title("Interview Analysis")
 # """, unsafe_allow_html=True)
 
 # Create two columns with custom width ratios
-col1, col2 = st.columns([2, 5])  # Left column is wider than the right column
+col1, col2 = st.columns([2, 5]) 
 
 with col1:
     st.write(" ")
@@ -43,7 +46,9 @@ with col1:
     video_dir = "uploaded_videos" #vid folder
     uploaded_file = None
 
-    st.write("Question: Apa yang anda ketahui tentang Ionic?")
+    chosen_question = st.session_state.get("chosen_question", "No question selected.")
+    st.write(f"Question: {chosen_question}")
+
     if os.listdir(video_dir):# Loop through video directory
         for video_filename in os.listdir(video_dir):
             video_path = os.path.join(video_dir, video_filename)
@@ -66,18 +71,37 @@ with col1:
 with col2: 
     tab1, tab2 = st.tabs(["Analysis", "Extracted Details"])
     with tab1:
+        st.write("Frames Analysis: ")
+        if st.button("Facial Expression Analysis"):
+            st.switch_page("pages/2_Facial-Expression-Analysis.py")
+        st.write("Tone Analysis: ")
         if st.button("Emotion Analysis"):
             st.switch_page("pages/Emotion-Analysis.py")
-        if st.button("Facial Expression Analysis"):
-            st.switch_page("pages/Facial-Expression-Analysis.py")
         if st.button("Personality Analysis"):
             st.switch_page("pages/Personality-Analysis.py")
+        st.write("Transcript text Analysis: ")
         if st.button("Stress Detection"):
             st.switch_page("pages/Stress-Analysis.py")
     with tab2:
-        #mock transcript
-        st.subheader("Transcript: ")
-        st.text("Ionic adalah framework yang membangun aplikasi mobile dengan menggunakan html css dan javascript")
+        # Convert video to audio
+        audio_file = convert_video_to_audio(tfile.name)
+        #st.success("Video has been processed and audio extracted!")
+
+        if audio_file:
+            # st.success("Audio extracted successfully!")
+
+            # Transcribe audio
+            transcription_result = transcribe_audio(audio_file)
+            speech_text = transcription_result["text"]
+            detected_language = transcription_result["language"]
+
+            st.write("**Detected Language:**", langcodes.get(detected_language).display_name())
+            st.write("**Transcribed Text:**", speech_text)
+
+            # Translate to Indonesian if necessary
+            if detected_language != "id":
+                speech_text = translate_to_indonesian(speech_text)
+                st.write("**Translated Text:**", speech_text)
 
         st.subheader("Extracted Audio Features: ")
         st.write(features)
